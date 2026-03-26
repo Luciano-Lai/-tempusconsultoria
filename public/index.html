@@ -428,6 +428,22 @@
     <script>
         lucide.createIcons();
 
+        // Função auxiliar para formatar valores monetários de forma legível
+        function formatarValor(valor) {
+            if (valor >= 1000000) {
+                return `R$ ${(valor / 1000000).toFixed(1).replace('.', ',')} milhões`;
+            } else if (valor >= 1000) {
+                return `R$ ${(valor / 1000).toFixed(0).replace('.', ',')} mil`;
+            }
+            return `R$ ${valor.toLocaleString('pt-BR')}`;
+        }
+
+        function formatarFaixaCredito(min, max) {
+            const minFormat = formatarValor(min);
+            const maxFormat = formatarValor(max);
+            return `${minFormat} a ${maxFormat}`;
+        }
+
         // Dados completos das linhas de crédito
         const modalidades = [
             { 
@@ -568,7 +584,9 @@
         // Gerar os cards
         function renderCards() {
             const grid = document.getElementById('creditGrid');
-            grid.innerHTML = modalidades.map((m, idx) => `
+            grid.innerHTML = modalidades.map((m, idx) => {
+                const faixaCredito = formatarFaixaCredito(m.creditoMin, m.creditoMax);
+                return `
                 <div class="credit-card">
                     <div class="icon-box"><i data-lucide="${m.icone}"></i></div>
                     <h3>${m.nome}</h3>
@@ -580,7 +598,7 @@
                     </div>
                     <div class="credit-info-row">
                         <span class="credit-info-label">Crédito:</span>
-                        <span class="credit-info-value">R$ ${m.creditoMin.toLocaleString('pt-BR')} a R$ ${(m.creditoMax/1000).toLocaleString('pt-BR')} mil</span>
+                        <span class="credit-info-value">${faixaCredito}</span>
                     </div>
                     <div class="card-buttons">
                         <button class="btn btn-outline btn-sm" onclick="abrirModal(${idx})">
@@ -591,7 +609,7 @@
                         </button>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
             lucide.createIcons();
         }
 
@@ -613,11 +631,11 @@
                     <div class="info-grid">
                         <div class="info-item">
                             <span class="label">Crédito Mínimo</span>
-                            <span class="value">R$ ${m.creditoMin.toLocaleString('pt-BR')}</span>
+                            <span class="value">${formatarValor(m.creditoMin)}</span>
                         </div>
                         <div class="info-item">
                             <span class="label">Crédito Máximo</span>
-                            <span class="value">R$ ${(m.creditoMax/1000).toLocaleString('pt-BR')} mil</span>
+                            <span class="value">${formatarValor(m.creditoMax)}</span>
                         </div>
                         <div class="info-item">
                             <span class="label">Taxa de Juros</span>
@@ -658,11 +676,11 @@
                         <div class="simulation-values">
                             <div>
                                 <span class="label">Mínimo</span>
-                                <div class="amount">R$ ${valorMinSimulado.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+                                <div class="amount">${formatarValor(valorMinSimulado)}</div>
                             </div>
                             <div>
                                 <span class="label">Máximo</span>
-                                <div class="amount">R$ ${valorMaxSimulado.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+                                <div class="amount">${formatarValor(valorMaxSimulado)}</div>
                             </div>
                         </div>
                     </div>
@@ -700,8 +718,8 @@
             document.getElementById('modalidadeDesc').innerText = m.desc;
             document.getElementById('taxNote').innerHTML = '*As taxas de juros podem ser alteradas de acordo com o plano de negócios e a gestão de risco.';
             
-            // Atualizar placeholders com limites
-            document.getElementById('valorInput').placeholder = `Min: R$ ${m.creditoMin.toLocaleString('pt-BR')} | Max: R$ ${(m.creditoMax/1000).toLocaleString('pt-BR')} mil`;
+            // Atualizar placeholders com limites formatados
+            document.getElementById('valorInput').placeholder = `Mín: ${formatarValor(m.creditoMin)} | Máx: ${formatarValor(m.creditoMax)}`;
             document.getElementById('prazoInput').placeholder = `Máximo: ${m.prazoMax} meses`;
         }
         
@@ -724,9 +742,9 @@
                 });
             } else {
                 if (valor < m.creditoMin && valor > 0) {
-                    document.getElementById('resultadoParcela').innerHTML = `Mínimo: R$ ${m.creditoMin.toLocaleString('pt-BR')}`;
+                    document.getElementById('resultadoParcela').innerHTML = `Mínimo: ${formatarValor(m.creditoMin)}`;
                 } else if (valor > m.creditoMax && valor > 0) {
-                    document.getElementById('resultadoParcela').innerHTML = `Máximo: R$ ${(m.creditoMax/1000).toLocaleString('pt-BR')} mil`;
+                    document.getElementById('resultadoParcela').innerHTML = `Máximo: ${formatarValor(m.creditoMax)}`;
                 } else if (prazo > m.prazoMax && prazo > 0) {
                     document.getElementById('resultadoParcela').innerHTML = `Prazo máx: ${m.prazoMax} meses`;
                 } else {
