@@ -242,7 +242,7 @@
             margin-top: 15px;
         }
         .simulation-values div { flex: 1; }
-        .simulation-values .amount { font-size: 1.3rem; font-weight: 800; color: var(--secondary); }
+        .simulation-values .amount { font-size: 1.2rem; font-weight: 800; color: var(--secondary); word-break: break-word; }
         .finalidades-list { list-style: none; padding-left: 0; }
         .finalidades-list li { padding: 6px 0; display: flex; align-items: center; gap: 8px; }
         .juros-composicao {
@@ -263,7 +263,7 @@
             color: var(--primary);
         }
         
-        /* Simulador - Versão melhorada */
+        /* Simulador Simplificado */
         .simulator-box {
             background: var(--bg-light);
             border-radius: 30px;
@@ -340,11 +340,12 @@
             margin-bottom: 10px;
         }
         .sim-result .price {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             font-weight: 800;
             color: var(--secondary);
             margin: 15px 0;
             display: block;
+            word-break: break-word;
         }
         .sim-result .detail {
             font-size: 0.8rem;
@@ -380,6 +381,7 @@
             .info-grid { grid-template-columns: 1fr; }
             .simulation-values { flex-direction: column; }
             .card-buttons { flex-direction: column; }
+            .sim-result .price { font-size: 1.4rem; }
         }
     </style>
 </head>
@@ -420,7 +422,7 @@
         <section class="section container" id="simulador">
             <div class="section-header">
                 <h2>Simulador Financeiro</h2>
-                <p>Escolha a linha de crédito e calcule suas parcelas</p>
+                <p>Escolha a linha de crédito e veja o valor total a ser devolvido no prazo máximo</p>
             </div>
 
             <div class="simulator-box">
@@ -443,22 +445,17 @@
                         <label><i data-lucide="dollar-sign" style="width: 18px; vertical-align: middle;"></i> Valor do Financiamento (R$)</label>
                         <input type="number" id="valorInput" placeholder="Ex: 50.000" oninput="calcularSimulacao()">
                     </div>
-                    
-                    <div class="input-group">
-                        <label><i data-lucide="calendar" style="width: 18px; vertical-align: middle;"></i> Prazo (meses)</label>
-                        <input type="number" id="prazoInput" placeholder="Ex: 36" oninput="calcularSimulacao()">
-                    </div>
                 </div>
 
                 <div class="sim-result">
-                    <h4>Valor Estimado da Parcela</h4>
-                    <span class="price" id="resultadoParcela">R$ 0,00</span>
-                    <a href="https://wa.me/5521982619775" class="btn btn-wa" style="width: 100%; margin-top: 15px;">
+                    <h4>Valor Total a Devolver</h4>
+                    <span class="price" id="resultadoTotal">R$ 0,00</span>
+                    <div class="detail">
+                        <small>Considerando o prazo máximo de <span id="prazoUsado">--</span> meses</small>
+                    </div>
+                    <a href="https://wa.me/5521982619775" class="btn btn-wa" style="width: 100%; margin-top: 20px;">
                         Solicitar Análise de Crédito
                     </a>
-                    <div class="detail">
-                        <small>*Simulação baseada na Tabela Price com juros compostos</small>
-                    </div>
                 </div>
             </div>
         </section>
@@ -501,7 +498,8 @@
     <script>
         lucide.createIcons();
 
-        function formatarValor(valor) {
+        // Função para formatar valores COM CENTAVOS para exibição nos cards e informações gerais
+        function formatarValorResumido(valor) {
             if (valor >= 1000000) {
                 const emMilhoes = valor / 1000000;
                 if (Math.abs(emMilhoes - Math.round(emMilhoes)) < 0.01) {
@@ -514,8 +512,18 @@
             return `R$ ${valor.toLocaleString('pt-BR')}`;
         }
 
+        // Função para formatar valores COM CENTAVOS EXATOS (usado na calculadora e modal)
+        function formatarValorExato(valor) {
+            return valor.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
         function formatarFaixaCredito(min, max) {
-            return `${formatarValor(min)} a ${formatarValor(max)}`;
+            return `${formatarValorResumido(min)} a ${formatarValorResumido(max)}`;
         }
 
         const modalidades = [
@@ -536,7 +544,6 @@
             return valor * Math.pow(1 + taxa, prazo);
         }
 
-        // Preencher o select do simulador
         function preencherSelect() {
             const select = document.getElementById('selectModalidade');
             select.innerHTML = modalidades.map((m, idx) => 
@@ -544,49 +551,41 @@
             ).join('');
         }
 
-        // Trocar modalidade pelo select
         function trocarModalidade() {
             const select = document.getElementById('selectModalidade');
             modalidadeAtual = parseInt(select.value);
             atualizarInfoSimulador();
             calcularSimulacao();
-            // Atualizar também o card ativo visualmente
             renderCards();
         }
 
-        // Atualizar informações da linha selecionada no simulador
         function atualizarInfoSimulador() {
             const m = modalidades[modalidadeAtual];
             document.getElementById('simTaxa').innerHTML = `<strong>${m.taxaDisplay}</strong>`;
             document.getElementById('simPrazoMax').innerHTML = m.prazoMax;
             document.getElementById('simCredito').innerHTML = formatarFaixaCredito(m.creditoMin, m.creditoMax);
             document.getElementById('simCarencia').innerHTML = m.carencia;
-            document.getElementById('valorInput').placeholder = `Mín: ${formatarValor(m.creditoMin)} | Máx: ${formatarValor(m.creditoMax)}`;
-            document.getElementById('prazoInput').placeholder = `Máximo: ${m.prazoMax} meses`;
+            document.getElementById('valorInput').placeholder = `Mín: ${formatarValorResumido(m.creditoMin)} | Máx: ${formatarValorResumido(m.creditoMax)}`;
+            document.getElementById('prazoUsado').innerHTML = m.prazoMax;
         }
 
         function calcularSimulacao() {
             let valor = parseFloat(document.getElementById('valorInput').value);
-            let prazo = parseInt(document.getElementById('prazoInput').value);
             const m = modalidades[modalidadeAtual];
             if (isNaN(valor)) valor = 0;
-            if (isNaN(prazo)) prazo = 0;
             
-            if (valor > 0 && prazo > 0 && prazo <= m.prazoMax && valor >= m.creditoMin && valor <= m.creditoMax) {
-                const parcela = valor * (m.taxaMensal * Math.pow(1 + m.taxaMensal, prazo)) / (Math.pow(1 + m.taxaMensal, prazo) - 1);
-                document.getElementById('resultadoParcela').innerHTML = parcela.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            if (valor > 0 && valor >= m.creditoMin && valor <= m.creditoMax) {
+                const montanteTotal = calcularMontanteTotal(valor, m.taxaMensal, m.prazoMax);
+                document.getElementById('resultadoTotal').innerHTML = formatarValorExato(montanteTotal);
             } else if (valor < m.creditoMin && valor > 0) {
-                document.getElementById('resultadoParcela').innerHTML = `Mínimo: ${formatarValor(m.creditoMin)}`;
+                document.getElementById('resultadoTotal').innerHTML = `Mínimo: ${formatarValorResumido(m.creditoMin)}`;
             } else if (valor > m.creditoMax && valor > 0) {
-                document.getElementById('resultadoParcela').innerHTML = `Máximo: ${formatarValor(m.creditoMax)}`;
-            } else if (prazo > m.prazoMax && prazo > 0) {
-                document.getElementById('resultadoParcela').innerHTML = `Prazo máx: ${m.prazoMax} meses`;
+                document.getElementById('resultadoTotal').innerHTML = `Máximo: ${formatarValorResumido(m.creditoMax)}`;
             } else {
-                document.getElementById('resultadoParcela').innerHTML = "R$ 0,00";
+                document.getElementById('resultadoTotal').innerHTML = "R$ 0,00";
             }
         }
 
-        // Funções dos cards
         function renderCards() {
             const grid = document.getElementById('creditGrid');
             grid.innerHTML = modalidades.map((m, idx) => `
@@ -608,7 +607,6 @@
 
         function simularLinhaCard(idx) {
             modalidadeAtual = idx;
-            // Atualizar o select do simulador
             document.getElementById('selectModalidade').value = idx;
             atualizarInfoSimulador();
             calcularSimulacao();
@@ -626,8 +624,8 @@
                 <div class="modal-section">
                     <h3><i data-lucide="info"></i> Informações Principais</h3>
                     <div class="info-grid">
-                        <div class="info-item"><span class="label">Crédito Mínimo</span><span class="value">${formatarValor(m.creditoMin)}</span></div>
-                        <div class="info-item"><span class="label">Crédito Máximo</span><span class="value">${formatarValor(m.creditoMax)}</span></div>
+                        <div class="info-item"><span class="label">Crédito Mínimo</span><span class="value">${formatarValorResumido(m.creditoMin)}</span></div>
+                        <div class="info-item"><span class="label">Crédito Máximo</span><span class="value">${formatarValorResumido(m.creditoMax)}</span></div>
                         <div class="info-item"><span class="label">Taxa de Juros</span><span class="value"><strong>*${m.taxaDisplay}</strong></span></div>
                         <div class="info-item"><span class="label">Prazo Máximo</span><span class="value">${m.prazoMax} meses</span></div>
                         <div class="info-item"><span class="label">Carência</span><span class="value">${m.carencia} meses</span></div>
@@ -655,8 +653,8 @@
                     <div class="simulation-box">
                         <p>Valor total a devolver no prazo máximo (${m.prazoMax} meses):</p>
                         <div class="simulation-values">
-                            <div><span class="label">Mínimo</span><div class="amount">${formatarValor(valorMinSimulado)}</div></div>
-                            <div><span class="label">Máximo</span><div class="amount">${formatarValor(valorMaxSimulado)}</div></div>
+                            <div><span class="label">Mínimo</span><div class="amount">${formatarValorExato(valorMinSimulado)}</div></div>
+                            <div><span class="label">Máximo</span><div class="amount">${formatarValorExato(valorMaxSimulado)}</div></div>
                         </div>
                     </div>
                 </div>
@@ -675,7 +673,6 @@
             if (event.target === document.getElementById('modal')) fecharModal();
         }
         
-        // Inicialização
         preencherSelect();
         atualizarInfoSimulador();
         renderCards();
