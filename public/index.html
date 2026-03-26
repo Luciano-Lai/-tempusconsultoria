@@ -66,7 +66,7 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
         }
 
         .logo {
@@ -78,6 +78,32 @@
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        /* Menu de Navegação */
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-menu a:hover {
+            color: var(--secondary);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
         }
 
         /* Hero */
@@ -691,20 +717,46 @@
 
         .footer-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 40px;
+            grid-template-columns: 2fr 1fr;
+            gap: 60px;
             margin-bottom: 40px;
         }
 
         .footer-col h4 {
             margin-bottom: 20px;
             color: var(--secondary);
+            font-size: 1.1rem;
         }
 
         .footer-col p {
-            opacity: 0.7;
-            margin: 8px 0;
+            opacity: 0.8;
+            margin: 12px 0;
+            line-height: 1.5;
+        }
+
+        .footer-contact {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 15px 0;
             cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .footer-contact:hover {
+            opacity: 0.8;
+            transform: translateX(5px);
+        }
+
+        .footer-contact i {
+            width: 20px;
+            height: 20px;
+            color: var(--secondary);
+        }
+
+        .footer-contact a {
+            color: white;
+            text-decoration: none;
         }
 
         .copyright {
@@ -717,6 +769,20 @@
 
         /* Responsividade */
         @media (max-width: 768px) {
+            .nav-wrapper {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .nav-menu {
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .nav-buttons {
+                justify-content: center;
+            }
+            
             .simulator-box {
                 grid-template-columns: 1fr;
                 gap: 30px;
@@ -740,7 +806,11 @@
             .footer-grid {
                 grid-template-columns: 1fr;
                 text-align: center;
-                gap: 25px;
+                gap: 40px;
+            }
+            
+            .footer-contact {
+                justify-content: center;
             }
 
             .info-grid {
@@ -768,9 +838,17 @@
             <a href="#" class="logo">
                 <i data-lucide="trending-up"></i> TEMPUS
             </a>
-            <a href="https://wa.me/5521982619775" class="btn btn-wa" style="padding: 10px 24px; font-size: 14px;">
-                <i data-lucide="message-circle"></i> Consultoria Grátis
-            </a>
+            <div class="nav-menu">
+                <a href="#sobre">Sobre</a>
+                <a href="#servicos">Linhas de Crédito</a>
+                <a href="#simulador">Simulador</a>
+                <a href="#segmentos">Segmentos</a>
+            </div>
+            <div class="nav-buttons">
+                <a href="https://wa.me/5521982619775" class="btn btn-wa" style="padding: 10px 24px; font-size: 14px;">
+                    <i data-lucide="message-circle"></i> Consultoria Grátis
+                </a>
+            </div>
         </div>
     </header>
 
@@ -786,8 +864,8 @@
             </div>
         </section>
 
-        <!-- Seção Sobre a TEMPUS - Versão atualizada sem o quadro verde -->
-        <section class="section container">
+        <!-- Seção Sobre a TEMPUS -->
+        <section class="section container" id="sobre">
             <div class="about-content">
                 <h3>Sobre a <span style="color: var(--secondary);">TEMPUS</span></h3>
                 <p>Somos uma consultoria especializada em viabilidade e expansão de negócios através de captação de recursos de alto impacto e gestão estratégica de ativos financeiros e operacionais. Com profundo conhecimento do mercado de crédito e linhas de financiamento, conectamos empresas às melhores oportunidades de crédito disponíveis no mercado.</p>
@@ -804,10 +882,6 @@
                     <div class="feature">
                         <i data-lucide="check-circle"></i>
                         <span>Acompanhamento completo</span>
-                    </div>
-                    <div class="feature">
-                        <i data-lucide="check-circle"></i>
-                        <span>Agilidade na aprovação</span>
                     </div>
                 </div>
             </div>
@@ -865,7 +939,7 @@
         </section>
 
         <!-- Seção Segmentos Diversos -->
-        <section class="section container">
+        <section class="section container" id="segmentos">
             <div class="section-header">
                 <h2>Segmentos que Atendemos</h2>
                 <p>Presentes nos mais diversos setores da economia</p>
@@ -944,20 +1018,22 @@
             <div class="footer-grid">
                 <div class="footer-col">
                     <a href="#" class="logo" style="color: white; margin-bottom: 15px; display: inline-block;">TEMPUS</a>
-                    <p>Especialistas em crédito empresarial. Acesse as melhores linhas de financiamento do BNDES, AgeRio e FINEP com nossa consultoria especializada.</p>
-                </div>
-                <div class="footer-col">
-                    <h4>Linhas de Crédito</h4>
-                    <p>BNDES PME</p>
-                    <p>Microcrédito MPE</p>
-                    <p>Empresas Nascentes</p>
-                    <p>Inovação e Tecnologia</p>
+                    <p>Somos uma consultoria especializada em viabilidade e expansão de negócios através de captação de recursos de alto impacto e gestão estratégica de ativos financeiros e operacionais. Conectamos empresas às melhores oportunidades de crédito disponíveis no mercado.</p>
                 </div>
                 <div class="footer-col">
                     <h4>Contato</h4>
-                    <p>WhatsApp: (21) 98261-9775</p>
-                    <p>Rio de Janeiro - RJ</p>
-                    <p>Atendimento Nacional</p>
+                    <div class="footer-contact" onclick="window.location.href='https://wa.me/5521982619775'">
+                        <i data-lucide="phone"></i>
+                        <span>(21) 98261-9775</span>
+                    </div>
+                    <div class="footer-contact" onclick="window.location.href='mailto:tempusinteligencia@gmail.com'">
+                        <i data-lucide="mail"></i>
+                        <span>tempusinteligencia@gmail.com</span>
+                    </div>
+                    <div class="footer-contact">
+                        <i data-lucide="map-pin"></i>
+                        <span>Rio de Janeiro - RJ</span>
+                    </div>
                 </div>
             </div>
             <div class="copyright">
