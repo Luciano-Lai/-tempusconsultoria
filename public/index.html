@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TEMPUS Consultoria - Crédito Empresarial</title>
     
-    <meta name="description" content="Consultoria especializada em linhas de crédito BNDES, AgeRio, FINEP. Soluções para empresas de todos os portes no Rio de Janeiro.">
+    <meta name="description" content="Consultoria especializada em viabilidade e expansão de negócios através de captação de recursos de alto impacto e gestão estratégica de ativos financeiros e operacionais.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -184,12 +184,11 @@
             font-size: 1rem;
         }
 
-        /* Seção Sobre */
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
+        /* Seção Sobre - Versão simplificada (sem o quadro verde) */
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
         }
 
         .about-content h3 {
@@ -205,46 +204,28 @@
         }
 
         .about-features {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
             margin-top: 30px;
         }
 
         .feature {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .feature i {
             color: var(--secondary);
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
         }
 
         .feature span {
             font-weight: 500;
             color: var(--text-main);
-        }
-
-        .about-image {
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
-            border-radius: 30px;
-            padding: 40px;
-            text-align: center;
-            color: white;
-        }
-
-        .about-image i {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 20px;
-        }
-
-        .about-image h4 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
         }
 
         /* Seção de Estatísticas */
@@ -742,18 +723,10 @@
                 padding: 25px;
             }
 
-            .about-grid {
-                grid-template-columns: 1fr;
-                gap: 40px;
-                text-align: center;
-            }
-
             .about-features {
-                grid-template-columns: 1fr;
-            }
-
-            .feature {
-                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
             }
 
             .stats-grid {
@@ -805,7 +778,7 @@
         <section class="hero">
             <div class="container">
                 <h1>Crédito Especializado para Empresas</h1>
-                <p>Acesse as melhores linhas de financiamento do BNDES, AgeRio e FINEP com nossa consultoria especializada.</p>
+                <p>Consultoria especializada em viabilidade e expansão de negócios através de captação de recursos de alto impacto e gestão estratégica de ativos financeiros e operacionais.</p>
                 <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                     <a href="#simulador" class="btn">Simular Agora</a>
                     <a href="https://wa.me/5521982619775" class="btn btn-wa">Falar com Especialista</a>
@@ -813,39 +786,28 @@
             </div>
         </section>
 
-        <!-- Seção Sobre a TEMPUS -->
+        <!-- Seção Sobre a TEMPUS - Versão atualizada sem o quadro verde -->
         <section class="section container">
-            <div class="about-grid">
-                <div class="about-content">
-                    <h3>Sobre a <span style="color: var(--secondary);">TEMPUS</span></h3>
-                    <p>Somos uma consultoria financeira especializada em captação de recursos de alto impacto e gestão estratégica de ativos financeiros. Com profundo conhecimento do mercado de crédito e linhas de financiamento, conectamos empresas às melhores oportunidades de crédito disponíveis no BNDES, AgeRio e FINEP.</p>
-                    <p>Nossa missão é transformar desafios financeiros em oportunidades de crescimento real, oferecendo soluções sob medida para empresas de todos os portes no Estado do Rio de Janeiro e em todo território nacional.</p>
-                    <div class="about-features">
-                        <div class="feature">
-                            <i data-lucide="check-circle"></i>
-                            <span>Análise personalizada</span>
-                        </div>
-                        <div class="feature">
-                            <i data-lucide="check-circle"></i>
-                            <span>Melhores taxas do mercado</span>
-                        </div>
-                        <div class="feature">
-                            <i data-lucide="check-circle"></i>
-                            <span>Acompanhamento completo</span>
-                        </div>
-                        <div class="feature">
-                            <i data-lucide="check-circle"></i>
-                            <span>Agilidade na aprovação</span>
-                        </div>
+            <div class="about-content">
+                <h3>Sobre a <span style="color: var(--secondary);">TEMPUS</span></h3>
+                <p>Somos uma consultoria especializada em viabilidade e expansão de negócios através de captação de recursos de alto impacto e gestão estratégica de ativos financeiros e operacionais. Com profundo conhecimento do mercado de crédito e linhas de financiamento, conectamos empresas às melhores oportunidades de crédito disponíveis no mercado.</p>
+                <p>Nossa missão é transformar desafios financeiros em oportunidades de crescimento real, oferecendo soluções sob medida para empresas de todos os portes e segmentos no Estado do Rio de Janeiro e em todo território nacional.</p>
+                <div class="about-features">
+                    <div class="feature">
+                        <i data-lucide="check-circle"></i>
+                        <span>Análise personalizada</span>
                     </div>
-                </div>
-                <div class="about-image">
-                    <i data-lucide="trending-up"></i>
-                    <h4>+ de 20 anos</h4>
-                    <p>de experiência em consultoria financeira e captação de recursos</p>
-                    <div style="margin-top: 20px;">
-                        <i data-lucide="users" style="width: 40px; height: 40px;"></i>
-                        <p style="margin-top: 10px;">+500 empresas atendidas</p>
+                    <div class="feature">
+                        <i data-lucide="check-circle"></i>
+                        <span>Melhores taxas do mercado</span>
+                    </div>
+                    <div class="feature">
+                        <i data-lucide="check-circle"></i>
+                        <span>Acompanhamento completo</span>
+                    </div>
+                    <div class="feature">
+                        <i data-lucide="check-circle"></i>
+                        <span>Agilidade na aprovação</span>
                     </div>
                 </div>
             </div>
@@ -863,6 +825,11 @@
                     <div class="stat-number">R$ 300+</div>
                     <div class="stat-label">Milhões em Negócios</div>
                     <div class="stat-desc">Em negócios estruturados e viabilizados com sucesso</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Empresas Atendidas</div>
+                    <div class="stat-desc">Clientes satisfeitos em diversos segmentos da economia</div>
                 </div>
             </div>
         </section>
