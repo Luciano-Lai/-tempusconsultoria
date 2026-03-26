@@ -121,6 +121,60 @@
         .section-header h2 { font-size: 2rem; color: var(--primary); font-weight: 700; margin-bottom: 12px; }
         .section-header p { color: var(--text-muted); font-size: 1rem; }
 
+        /* Seção Sobre */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .about-content h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        .about-content p {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .feature i {
+            color: var(--secondary);
+            width: 24px;
+            height: 24px;
+        }
+        .feature span {
+            font-weight: 500;
+            color: var(--text-main);
+        }
+        .about-image {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            border-radius: 30px;
+            padding: 40px;
+            text-align: center;
+            color: white;
+        }
+        .about-image i {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+        .about-image h4 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
         /* Grid de Créditos */
         .credit-grid { 
             display: grid; 
@@ -377,6 +431,9 @@
 
         @media (max-width: 768px) {
             .simulator-box { grid-template-columns: 1fr; gap: 30px; padding: 25px; }
+            .about-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+            .about-features { grid-template-columns: 1fr; }
+            .feature { justify-content: center; }
             .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 25px; }
             .info-grid { grid-template-columns: 1fr; }
             .simulation-values { flex-direction: column; }
@@ -410,6 +467,44 @@
             </div>
         </section>
 
+        <!-- Nova Seção Sobre a TEMPUS -->
+        <section class="section container">
+            <div class="about-grid">
+                <div class="about-content">
+                    <h3>Sobre a <span style="color: var(--secondary);">TEMPUS</span></h3>
+                    <p>Somos uma consultoria financeira especializada em captação de recursos de alto impacto e gestão estratégica de ativos financeiros. Com profundo conhecimento do mercado de crédito e linhas de financiamento, conectamos empresas às melhores oportunidades de crédito disponíveis no BNDES, AgeRio e FINEP.</p>
+                    <p>Nossa missão é transformar desafios financeiros em oportunidades de crescimento real, oferecendo soluções sob medida para empresas de todos os portes no Estado do Rio de Janeiro e em todo território nacional.</p>
+                    <div class="about-features">
+                        <div class="feature">
+                            <i data-lucide="check-circle"></i>
+                            <span>Análise personalizada</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check-circle"></i>
+                            <span>Melhores taxas do mercado</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check-circle"></i>
+                            <span>Acompanhamento completo</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check-circle"></i>
+                            <span>Agilidade na aprovação</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <i data-lucide="trending-up"></i>
+                    <h4>+ de 10 anos</h4>
+                    <p>de experiência em consultoria financeira e captação de recursos</p>
+                    <div style="margin-top: 20px;">
+                        <i data-lucide="users" style="width: 40px; height: 40px;"></i>
+                        <p style="margin-top: 10px;">+500 empresas atendidas</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="section container" id="servicos">
             <div class="section-header">
                 <h2>Linhas de Crédito Disponíveis</h2>
@@ -438,7 +533,6 @@
                         <p><strong>Taxa de juros:</strong> <span id="simTaxa">--</span></p>
                         <p><strong>Prazo máximo:</strong> <span id="simPrazoMax">--</span> meses</p>
                         <p><strong>Crédito disponível:</strong> <span id="simCredito">--</span></p>
-                        <p><strong>Carência:</strong> <span id="simCarencia">--</span> meses</p>
                     </div>
                     
                     <div class="input-group">
@@ -564,7 +658,6 @@
             document.getElementById('simTaxa').innerHTML = `<strong>${m.taxaDisplay}</strong>`;
             document.getElementById('simPrazoMax').innerHTML = m.prazoMax;
             document.getElementById('simCredito').innerHTML = formatarFaixaCredito(m.creditoMin, m.creditoMax);
-            document.getElementById('simCarencia').innerHTML = m.carencia;
             document.getElementById('valorInput').placeholder = `Mín: ${formatarValorResumido(m.creditoMin)} | Máx: ${formatarValorResumido(m.creditoMax)}`;
             document.getElementById('prazoUsado').innerHTML = m.prazoMax;
         }
