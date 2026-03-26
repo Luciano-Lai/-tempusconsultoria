@@ -263,7 +263,7 @@
             color: var(--primary);
         }
         
-        /* Simulador */
+        /* Simulador - Versão melhorada */
         .simulator-box {
             background: var(--bg-light);
             border-radius: 30px;
@@ -271,13 +271,33 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 50px;
-            align-items: center;
+            align-items: start;
         }
-        .sim-info { background: white; padding: 25px; border-radius: 20px; box-shadow: var(--shadow); }
-        .sim-info h3 { color: var(--primary); margin-bottom: 15px; font-size: 1.3rem; }
-        .tax-info { font-size: 2rem; font-weight: 800; color: var(--secondary); margin: 10px 0; }
-        .sim-inputs { display: flex; flex-direction: column; gap: 20px; }
-        .input-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--primary); }
+        .sim-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .selector-group label, .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        .selector-group select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .selector-group select:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
         .input-group input {
             width: 100%;
             padding: 14px;
@@ -286,21 +306,50 @@
             font-size: 1rem;
             transition: 0.3s;
         }
-        .input-group input:focus { border-color: var(--secondary); outline: none; }
+        .input-group input:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+        .info-sim {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin-top: 10px;
+        }
+        .info-sim p {
+            margin: 8px 0;
+            font-size: 0.9rem;
+        }
+        .info-sim strong {
+            color: var(--secondary);
+        }
         .sim-result {
             background: var(--primary);
             color: white;
             padding: 35px;
             border-radius: 24px;
             text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-        .sim-result h4 { opacity: 0.8; font-weight: 400; margin-bottom: 10px; }
-        .sim-result .price { 
-            font-size: 2.5rem; 
-            font-weight: 800; 
-            color: var(--secondary); 
+        .sim-result h4 {
+            opacity: 0.8;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+        .sim-result .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--secondary);
             margin: 15px 0;
             display: block;
+        }
+        .sim-result .detail {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 15px;
         }
         
         footer { 
@@ -371,23 +420,32 @@
         <section class="section container" id="simulador">
             <div class="section-header">
                 <h2>Simulador Financeiro</h2>
-                <p>Calcule suas parcelas com as condições reais de cada linha</p>
+                <p>Escolha a linha de crédito e calcule suas parcelas</p>
             </div>
 
             <div class="simulator-box">
                 <div class="sim-inputs">
-                    <div class="sim-info">
-                        <h3 id="modalidadeNome">Selecione uma linha</h3>
-                        <div class="tax-info" id="modalidadeTaxa">--</div>
-                        <p id="modalidadeDesc"></p>
-                        <small id="taxNote" style="display: block; margin-top: 10px; font-size: 0.7rem; color: var(--text-muted);"></small>
+                    <div class="selector-group">
+                        <label><i data-lucide="credit-card" style="width: 18px; vertical-align: middle;"></i> Selecione a Linha de Crédito</label>
+                        <select id="selectModalidade" onchange="trocarModalidade()">
+                            <!-- Opções serão preenchidas via JavaScript -->
+                        </select>
                     </div>
+                    
+                    <div class="info-sim" id="infoSimulador">
+                        <p><strong>Taxa de juros:</strong> <span id="simTaxa">--</span></p>
+                        <p><strong>Prazo máximo:</strong> <span id="simPrazoMax">--</span> meses</p>
+                        <p><strong>Crédito disponível:</strong> <span id="simCredito">--</span></p>
+                        <p><strong>Carência:</strong> <span id="simCarencia">--</span> meses</p>
+                    </div>
+                    
                     <div class="input-group">
-                        <label>Valor do Financiamento (R$)</label>
+                        <label><i data-lucide="dollar-sign" style="width: 18px; vertical-align: middle;"></i> Valor do Financiamento (R$)</label>
                         <input type="number" id="valorInput" placeholder="Ex: 50.000" oninput="calcularSimulacao()">
                     </div>
+                    
                     <div class="input-group">
-                        <label>Prazo (meses)</label>
+                        <label><i data-lucide="calendar" style="width: 18px; vertical-align: middle;"></i> Prazo (meses)</label>
                         <input type="number" id="prazoInput" placeholder="Ex: 36" oninput="calcularSimulacao()">
                     </div>
                 </div>
@@ -398,7 +456,9 @@
                     <a href="https://wa.me/5521982619775" class="btn btn-wa" style="width: 100%; margin-top: 15px;">
                         Solicitar Análise de Crédito
                     </a>
-                    <small style="font-size: 0.7rem; opacity: 0.7; display: block; margin-top: 12px;">*Simulação baseada na Tabela Price</small>
+                    <div class="detail">
+                        <small>*Simulação baseada na Tabela Price com juros compostos</small>
+                    </div>
                 </div>
             </div>
         </section>
@@ -476,10 +536,61 @@
             return valor * Math.pow(1 + taxa, prazo);
         }
 
+        // Preencher o select do simulador
+        function preencherSelect() {
+            const select = document.getElementById('selectModalidade');
+            select.innerHTML = modalidades.map((m, idx) => 
+                `<option value="${idx}" ${idx === modalidadeAtual ? 'selected' : ''}>${m.nome}</option>`
+            ).join('');
+        }
+
+        // Trocar modalidade pelo select
+        function trocarModalidade() {
+            const select = document.getElementById('selectModalidade');
+            modalidadeAtual = parseInt(select.value);
+            atualizarInfoSimulador();
+            calcularSimulacao();
+            // Atualizar também o card ativo visualmente
+            renderCards();
+        }
+
+        // Atualizar informações da linha selecionada no simulador
+        function atualizarInfoSimulador() {
+            const m = modalidades[modalidadeAtual];
+            document.getElementById('simTaxa').innerHTML = `<strong>${m.taxaDisplay}</strong>`;
+            document.getElementById('simPrazoMax').innerHTML = m.prazoMax;
+            document.getElementById('simCredito').innerHTML = formatarFaixaCredito(m.creditoMin, m.creditoMax);
+            document.getElementById('simCarencia').innerHTML = m.carencia;
+            document.getElementById('valorInput').placeholder = `Mín: ${formatarValor(m.creditoMin)} | Máx: ${formatarValor(m.creditoMax)}`;
+            document.getElementById('prazoInput').placeholder = `Máximo: ${m.prazoMax} meses`;
+        }
+
+        function calcularSimulacao() {
+            let valor = parseFloat(document.getElementById('valorInput').value);
+            let prazo = parseInt(document.getElementById('prazoInput').value);
+            const m = modalidades[modalidadeAtual];
+            if (isNaN(valor)) valor = 0;
+            if (isNaN(prazo)) prazo = 0;
+            
+            if (valor > 0 && prazo > 0 && prazo <= m.prazoMax && valor >= m.creditoMin && valor <= m.creditoMax) {
+                const parcela = valor * (m.taxaMensal * Math.pow(1 + m.taxaMensal, prazo)) / (Math.pow(1 + m.taxaMensal, prazo) - 1);
+                document.getElementById('resultadoParcela').innerHTML = parcela.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            } else if (valor < m.creditoMin && valor > 0) {
+                document.getElementById('resultadoParcela').innerHTML = `Mínimo: ${formatarValor(m.creditoMin)}`;
+            } else if (valor > m.creditoMax && valor > 0) {
+                document.getElementById('resultadoParcela').innerHTML = `Máximo: ${formatarValor(m.creditoMax)}`;
+            } else if (prazo > m.prazoMax && prazo > 0) {
+                document.getElementById('resultadoParcela').innerHTML = `Prazo máx: ${m.prazoMax} meses`;
+            } else {
+                document.getElementById('resultadoParcela').innerHTML = "R$ 0,00";
+            }
+        }
+
+        // Funções dos cards
         function renderCards() {
             const grid = document.getElementById('creditGrid');
             grid.innerHTML = modalidades.map((m, idx) => `
-                <div class="credit-card">
+                <div class="credit-card" style="${idx === modalidadeAtual ? 'border: 2px solid var(--secondary);' : ''}">
                     <div class="icon-box"><i data-lucide="${m.icone}"></i></div>
                     <h3>${m.nome}</h3>
                     <p>${m.desc}</p>
@@ -488,11 +599,21 @@
                     <div class="credit-info-row"><span class="credit-info-label">Crédito:</span><span class="credit-info-value">${formatarFaixaCredito(m.creditoMin, m.creditoMax)}</span></div>
                     <div class="card-buttons">
                         <button class="btn btn-outline btn-sm" onclick="abrirModal(${idx})"><i data-lucide="info"></i> Saiba Mais</button>
-                        <button class="btn btn-sm" onclick="simularLinha(${idx})"><i data-lucide="calculator"></i> Simular Agora</button>
+                        <button class="btn btn-sm" onclick="simularLinhaCard(${idx})"><i data-lucide="calculator"></i> Simular Agora</button>
                     </div>
                 </div>
             `).join('');
             lucide.createIcons();
+        }
+
+        function simularLinhaCard(idx) {
+            modalidadeAtual = idx;
+            // Atualizar o select do simulador
+            document.getElementById('selectModalidade').value = idx;
+            atualizarInfoSimulador();
+            calcularSimulacao();
+            renderCards();
+            document.getElementById('simulador').scrollIntoView({ behavior: 'smooth' });
         }
 
         function abrirModal(idx) {
@@ -540,7 +661,7 @@
                     </div>
                 </div>
                 <div style="display: flex; gap: 12px; margin-top: 20px;">
-                    <button class="btn" style="flex: 1;" onclick="fecharModal(); simularLinha(${idx});"><i data-lucide="calculator"></i> Simular Agora</button>
+                    <button class="btn" style="flex: 1;" onclick="fecharModal(); simularLinhaCard(${idx});"><i data-lucide="calculator"></i> Simular Agora</button>
                     <a href="https://wa.me/5521982619775" class="btn btn-wa" style="flex: 1; text-align: center;"><i data-lucide="message-circle"></i> Solicitar</a>
                 </div>
             `;
@@ -550,50 +671,14 @@
         
         function fecharModal() { document.getElementById('modal').classList.remove('active'); }
         
-        function simularLinha(idx) {
-            modalidadeAtual = idx;
-            atualizarInfoModalidade();
-            calcularSimulacao();
-            document.getElementById('simulador').scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        function atualizarInfoModalidade() {
-            const m = modalidades[modalidadeAtual];
-            document.getElementById('modalidadeNome').innerText = m.nome;
-            document.getElementById('modalidadeTaxa').innerHTML = `<strong>*${m.taxaDisplay}</strong>`;
-            document.getElementById('modalidadeDesc').innerText = m.desc;
-            document.getElementById('taxNote').innerHTML = '*As taxas de juros podem ser alteradas de acordo com o plano de negócios e a gestão de risco.';
-            document.getElementById('valorInput').placeholder = `Mín: ${formatarValor(m.creditoMin)} | Máx: ${formatarValor(m.creditoMax)}`;
-            document.getElementById('prazoInput').placeholder = `Máximo: ${m.prazoMax} meses`;
-        }
-        
-        function calcularSimulacao() {
-            let valor = parseFloat(document.getElementById('valorInput').value);
-            let prazo = parseInt(document.getElementById('prazoInput').value);
-            const m = modalidades[modalidadeAtual];
-            if (isNaN(valor)) valor = 0;
-            if (isNaN(prazo)) prazo = 0;
-            
-            if (valor > 0 && prazo > 0 && prazo <= m.prazoMax && valor >= m.creditoMin && valor <= m.creditoMax) {
-                const parcela = valor * (m.taxaMensal * Math.pow(1 + m.taxaMensal, prazo)) / (Math.pow(1 + m.taxaMensal, prazo) - 1);
-                document.getElementById('resultadoParcela').innerHTML = parcela.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-            } else if (valor < m.creditoMin && valor > 0) {
-                document.getElementById('resultadoParcela').innerHTML = `Mínimo: ${formatarValor(m.creditoMin)}`;
-            } else if (valor > m.creditoMax && valor > 0) {
-                document.getElementById('resultadoParcela').innerHTML = `Máximo: ${formatarValor(m.creditoMax)}`;
-            } else if (prazo > m.prazoMax && prazo > 0) {
-                document.getElementById('resultadoParcela').innerHTML = `Prazo máx: ${m.prazoMax} meses`;
-            } else {
-                document.getElementById('resultadoParcela').innerHTML = "R$ 0,00";
-            }
-        }
-        
         window.onclick = function(event) {
             if (event.target === document.getElementById('modal')) fecharModal();
         }
         
+        // Inicialização
+        preencherSelect();
+        atualizarInfoSimulador();
         renderCards();
-        atualizarInfoModalidade();
     </script>
 </body>
 </html>
