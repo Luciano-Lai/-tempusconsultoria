@@ -70,14 +70,18 @@
         }
 
         .logo {
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--secondary);
-            text-decoration: none;
-            letter-spacing: -1.5px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 45px;
+            transition: 0.3s;
+        }
+
+        .logo img:hover {
+            opacity: 0.9;
         }
 
         /* Menu de Navegação */
@@ -783,6 +787,10 @@
                 justify-content: center;
             }
             
+            .logo img {
+                height: 38px;
+            }
+            
             .simulator-box {
                 grid-template-columns: 1fr;
                 gap: 30px;
@@ -836,7 +844,7 @@
     <header>
         <div class="container nav-wrapper">
             <a href="#" class="logo">
-                <i data-lucide="trending-up"></i> TEMPUS
+                <img src="TEMPUS - Consultoria.png" alt="TEMPUS Consultoria - Soluções Financeiras Inteligentes">
             </a>
             <div class="nav-menu">
                 <a href="#sobre">Sobre</a>
@@ -1017,7 +1025,9 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <a href="#" class="logo" style="color: white; margin-bottom: 15px; display: inline-block;">TEMPUS</a>
+                    <a href="#" class="logo" style="margin-bottom: 15px; display: inline-block;">
+                        <img src="TEMPUS - Consultoria.png" alt="TEMPUS Consultoria" style="height: 45px;">
+                    </a>
                     <p>Somos uma consultoria especializada em viabilidade e expansão de negócios através de captação de recursos de alto impacto e gestão estratégica de ativos financeiros e operacionais. Conectamos empresas às melhores oportunidades de crédito disponíveis no mercado.</p>
                 </div>
                 <div class="footer-col">
