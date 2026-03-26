@@ -166,7 +166,6 @@
         .credit-info-label { font-weight: 600; color: var(--primary); }
         .credit-info-value { font-weight: 700; color: var(--secondary); }
         .tax-rate { font-size: 1.2rem; font-weight: 800; color: var(--secondary); margin: 10px 0; }
-        .tax-note { font-size: 0.7rem; color: var(--text-muted); margin-top: 5px; }
         
         .card-buttons {
             display: flex;
@@ -192,7 +191,7 @@
         .modal-content {
             background: var(--white);
             border-radius: 24px;
-            max-width: 550px;
+            max-width: 600px;
             width: 90%;
             max-height: 85vh;
             overflow-y: auto;
@@ -228,7 +227,7 @@
         }
         .info-item { background: var(--bg-light); padding: 12px; border-radius: 12px; }
         .info-item .label { font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 5px; }
-        .info-item .value { font-size: 1.2rem; font-weight: 700; color: var(--primary); }
+        .info-item .value { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
         .simulation-box {
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             color: white;
@@ -246,6 +245,23 @@
         .simulation-values .amount { font-size: 1.3rem; font-weight: 800; color: var(--secondary); }
         .finalidades-list { list-style: none; padding-left: 0; }
         .finalidades-list li { padding: 6px 0; display: flex; align-items: center; gap: 8px; }
+        .juros-composicao {
+            background: #eef2fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        .juros-formula {
+            font-family: monospace;
+            font-size: 0.9rem;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+        }
         
         /* Simulador */
         .simulator-box {
@@ -349,9 +365,7 @@
                 <p>Conheça nossas soluções financeiras e escolha a ideal para o seu negócio</p>
             </div>
             
-            <div class="credit-grid" id="creditGrid">
-                <!-- Cards serão preenchidos via JavaScript -->
-            </div>
+            <div class="credit-grid" id="creditGrid"></div>
         </section>
 
         <section class="section container" id="simulador">
@@ -417,7 +431,6 @@
         </div>
     </footer>
 
-    <!-- Modal -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="fecharModal()">&times;</span>
@@ -428,282 +441,115 @@
     <script>
         lucide.createIcons();
 
-        // Função auxiliar para formatar valores monetários de forma legível
         function formatarValor(valor) {
             if (valor >= 1000000) {
-                return `R$ ${(valor / 1000000).toFixed(1).replace('.', ',')} milhões`;
+                const emMilhoes = valor / 1000000;
+                if (Math.abs(emMilhoes - Math.round(emMilhoes)) < 0.01) {
+                    return `R$ ${Math.round(emMilhoes)} milhões`;
+                }
+                return `R$ ${emMilhoes.toFixed(1).replace('.', ',')} milhões`;
             } else if (valor >= 1000) {
-                return `R$ ${(valor / 1000).toFixed(0).replace('.', ',')} mil`;
+                return `R$ ${Math.round(valor / 1000)} mil`;
             }
             return `R$ ${valor.toLocaleString('pt-BR')}`;
         }
 
         function formatarFaixaCredito(min, max) {
-            const minFormat = formatarValor(min);
-            const maxFormat = formatarValor(max);
-            return `${minFormat} a ${maxFormat}`;
+            return `${formatarValor(min)} a ${formatarValor(max)}`;
         }
 
-        // Dados completos das linhas de crédito
         const modalidades = [
-            { 
-                id: 0,
-                nome: "BNDES PME", 
-                taxaMensal: 0.0135, 
-                taxaDisplay: "1,35% a.m.*",
-                prazoMax: 60, 
-                carencia: 12, 
-                creditoMin: 15000,
-                creditoMax: 15000000,
-                desc: "Capital de giro e investimento fixo para Micro, Pequenas e Médias Empresas",
-                icone: "building-2",
-                finalidades: ["Manutenção de estoques", "Folha de pagamento", "Compra de matérias-primas", "Despesas operacionais", "Máquinas e equipamentos", "Obras civis e instalações"],
-                segmentos: ["Indústria", "Comércio", "Serviços", "Agronegócio"]
-            },
-            { 
-                id: 1,
-                nome: "Turismo", 
-                taxaMensal: 0.0067, 
-                taxaDisplay: "0,67% a.m.*",
-                prazoMax: 72, 
-                carencia: 12, 
-                creditoMin: 21000,
-                creditoMax: 15000000,
-                desc: "Crédito para infraestrutura turística e capital de giro",
-                icone: "umbrella",
-                finalidades: ["Compra de máquinas e equipamentos", "Obras civis e reforma", "Ampliação e modernização", "Capital de giro e fixo"],
-                segmentos: ["Hotéis", "Pousadas", "Restaurantes", "Agencias de turismo", "Parques temáticos"]
-            },
-            { 
-                id: 2,
-                nome: "Empresas Nascentes", 
-                taxaMensal: 0.0113, 
-                taxaDisplay: "1,13% a.m.*",
-                prazoMax: 60, 
-                carencia: 18, 
-                creditoMin: 500000,
-                creditoMax: 15000000,
-                desc: "Empresas com menos de 24 meses de faturamento que possuam Plano de Negócios estruturado",
-                icone: "sprout",
-                finalidades: ["Desenvolvimento de novo produto/serviço", "Abertura de unidade", "Obra civil e instalações", "Aquisição de software", "Compra de máquinas", "Contratação de pessoal"],
-                segmentos: ["Startups", "Empresas inovadoras", "Tecnologia", "Indústria 4.0"]
-            },
-            { 
-                id: 3,
-                nome: "Microcrédito MPE", 
-                taxaMensal: 0.0025, 
-                taxaDisplay: "0,25% a.m.*",
-                prazoMax: 36, 
-                carencia: 6, 
-                creditoMin: 5000,
-                creditoMax: 21000,
-                desc: "Exclusivo para Micro e Pequenas Empresas com faturamento anual de até R$ 4,8 milhões",
-                icone: "coins",
-                finalidades: ["Capital de Giro", "Insumos", "Estoques", "Mercadorias"],
-                segmentos: ["MEI", "Microempresa", "Empresa de Pequeno Porte"]
-            },
-            { 
-                id: 4,
-                nome: "Crédito Simplificado", 
-                taxaMensal: 0.0168, 
-                taxaDisplay: "1,68% a.m.*",
-                prazoMax: 36, 
-                carencia: 6, 
-                creditoMin: 21000,
-                creditoMax: 150000,
-                desc: "Crédito rápido para Micro e Pequenas Empresas com mais de 24 meses de faturamento",
-                icone: "zap",
-                finalidades: ["Reforço de capital de giro", "Pagamento de fornecedores", "Materiais e insumos", "Mercadorias"],
-                segmentos: ["Comércio varejista", "Pequenos prestadores de serviço", "Indústria de pequeno porte"]
-            },
-            { 
-                id: 5,
-                nome: "Giro Médias/Grandes", 
-                taxaMensal: 0.0136, 
-                taxaDisplay: "1,36% a.m.*",
-                prazoMax: 60, 
-                carencia: 12, 
-                creditoMin: 50000,
-                creditoMax: 3000000,
-                desc: "Empresas com faturamento superior a R$ 4,8 milhões ao ano",
-                icone: "trending-up",
-                finalidades: ["Capital de Giro", "Mercadorias", "Insumos", "Expansão operacional"],
-                segmentos: ["Médias empresas", "Grandes empresas", "Indústria de médio porte"]
-            },
-            { 
-                id: 6,
-                nome: "Sustentabilidade", 
-                taxaMensal: 0.0145, 
-                taxaDisplay: "1,45% a.m.*",
-                prazoMax: 120, 
-                carencia: 36, 
-                creditoMin: 50000,
-                creditoMax: 30000000,
-                desc: "Projetos sustentáveis e energia renovável",
-                icone: "leaf",
-                finalidades: ["Energia Fotovoltaica", "Eólica", "Eficiência energética", "Reutilização de recursos", "Projetos sustentáveis"],
-                segmentos: ["Energia renovável", "Meio ambiente", "Construção sustentável"]
-            },
-            { 
-                id: 7,
-                nome: "Inovação (FINEP)", 
-                taxaMensal: 0.0063, 
-                taxaDisplay: "0,63% a.m.*",
-                prazoMax: 96, 
-                carencia: 24, 
-                creditoMin: 100000,
-                creditoMax: 15000000,
-                desc: "P&D, novos produtos e processos inovadores",
-                icone: "microscope",
-                finalidades: ["Desenvolvimento de novos produtos", "Aprimoramento de processos", "Tecnologias habilitadoras", "IoT e Indústria 4.0", "Pesquisa e desenvolvimento"],
-                segmentos: ["Tecnologia", "Indústria 4.0", "Startups inovadoras", "Biotech"]
-            },
-            { 
-                id: 8,
-                nome: "Crescimento/Expansão", 
-                taxaMensal: 0.0145, 
-                taxaDisplay: "1,45% a.m.*",
-                prazoMax: 60, 
-                carencia: 18, 
-                creditoMin: 50000,
-                creditoMax: 30000000,
-                desc: "Expansão e modernização da infraestrutura empresarial",
-                icone: "rocket",
-                finalidades: ["Implantação de unidades", "Máquinas e equipamentos", "Veículos", "Modernização", "Expansão"],
-                segmentos: ["Empresas em crescimento", "Indústria", "Comércio atacadista"]
-            }
+            { id: 0, nome: "BNDES PME", taxaMensal: 0.0135, taxaDisplay: "1,35% a.m.*", prazoMax: 60, carencia: 12, creditoMin: 15000, creditoMax: 15000000, desc: "Capital de giro e investimento fixo para Micro, Pequenas e Médias Empresas", icone: "building-2", composicaoJuros: "Indexador (TFB ou LCD) + 1,35% a.a. + 2,19% a.a.*", formulaJuros: "Custo efetivo = Indexador + spread anual", finalidades: ["Manutenção de estoques", "Folha de pagamento", "Compra de matérias-primas", "Despesas operacionais", "Máquinas e equipamentos", "Obras civis e instalações"], segmentos: ["Indústria", "Comércio", "Serviços", "Agronegócio"] },
+            { id: 1, nome: "Turismo", taxaMensal: 0.0067, taxaDisplay: "0,67% a.m.*", prazoMax: 72, carencia: 12, creditoMin: 21000, creditoMax: 15000000, desc: "Crédito para infraestrutura turística e capital de giro", icone: "umbrella", composicaoJuros: "INPC + 5% a.a.", formulaJuros: "Juros = INPC (inflação) + 5% ao ano", finalidades: ["Compra de máquinas e equipamentos", "Obras civis e reforma", "Ampliação e modernização", "Capital de giro e fixo"], segmentos: ["Hotéis", "Pousadas", "Restaurantes", "Agências de turismo", "Parques temáticos"] },
+            { id: 2, nome: "Empresas Nascentes", taxaMensal: 0.0113, taxaDisplay: "1,13% a.m.*", prazoMax: 60, carencia: 18, creditoMin: 500000, creditoMax: 15000000, desc: "Empresas com menos de 24 meses de faturamento", icone: "sprout", composicaoJuros: "SELIC + 4,25% a.a.", formulaJuros: "Juros = Taxa SELIC + 4,25% ao ano", finalidades: ["Desenvolvimento de novo produto/serviço", "Abertura de unidade", "Obra civil e instalações", "Aquisição de software", "Compra de máquinas", "Contratação de pessoal"], segmentos: ["Startups", "Empresas inovadoras", "Tecnologia", "Indústria 4.0"] },
+            { id: 3, nome: "Microcrédito MPE", taxaMensal: 0.0025, taxaDisplay: "0,25% a.m.*", prazoMax: 36, carencia: 6, creditoMin: 5000, creditoMax: 21000, desc: "Exclusivo para Micro e Pequenas Empresas", icone: "coins", composicaoJuros: "Taxa fixa de 0,25% a.m.", formulaJuros: "Juros simples de 0,25% ao mês sobre o saldo devedor", finalidades: ["Capital de Giro", "Insumos", "Estoques", "Mercadorias"], segmentos: ["MEI", "Microempresa", "Empresa de Pequeno Porte"] },
+            { id: 4, nome: "Crédito Simplificado", taxaMensal: 0.0168, taxaDisplay: "1,68% a.m.*", prazoMax: 36, carencia: 6, creditoMin: 21000, creditoMax: 150000, desc: "Crédito rápido para Micro e Pequenas Empresas", icone: "zap", composicaoJuros: "SELIC + 0,6% a.m.", formulaJuros: "Juros = Taxa SELIC + 0,6% ao mês", finalidades: ["Reforço de capital de giro", "Pagamento de fornecedores", "Materiais e insumos", "Mercadorias"], segmentos: ["Comércio varejista", "Pequenos prestadores de serviço", "Indústria de pequeno porte"] },
+            { id: 5, nome: "Giro Médias/Grandes", taxaMensal: 0.0136, taxaDisplay: "1,36% a.m.*", prazoMax: 60, carencia: 12, creditoMin: 50000, creditoMax: 3000000, desc: "Empresas com faturamento superior a R$ 4,8 milhões", icone: "trending-up", composicaoJuros: "SELIC + 0,25% a.m.", formulaJuros: "Juros = Taxa SELIC + 0,25% ao mês", finalidades: ["Capital de Giro", "Mercadorias", "Insumos", "Expansão operacional"], segmentos: ["Médias empresas", "Grandes empresas", "Indústria de médio porte"] },
+            { id: 6, nome: "Sustentabilidade", taxaMensal: 0.0145, taxaDisplay: "1,45% a.m.*", prazoMax: 120, carencia: 36, creditoMin: 50000, creditoMax: 30000000, desc: "Projetos sustentáveis e energia renovável", icone: "leaf", composicaoJuros: "SELIC + 0,35% a.m.", formulaJuros: "Juros = Taxa SELIC + 0,35% ao mês", finalidades: ["Energia Fotovoltaica", "Eólica", "Eficiência energética", "Reutilização de recursos", "Projetos sustentáveis"], segmentos: ["Energia renovável", "Meio ambiente", "Construção sustentável"] },
+            { id: 7, nome: "Inovação (FINEP)", taxaMensal: 0.0063, taxaDisplay: "0,63% a.m.*", prazoMax: 96, carencia: 24, creditoMin: 100000, creditoMax: 15000000, desc: "P&D, novos produtos e processos inovadores", icone: "microscope", composicaoJuros: "TR + 6,068% a.a.", formulaJuros: "Juros = Taxa Referencial (TR) + 6,068% ao ano", finalidades: ["Desenvolvimento de novos produtos", "Aprimoramento de processos", "Tecnologias habilitadoras", "IoT e Indústria 4.0", "Pesquisa e desenvolvimento"], segmentos: ["Tecnologia", "Indústria 4.0", "Startups inovadoras", "Biotech"] },
+            { id: 8, nome: "Crescimento/Expansão", taxaMensal: 0.0145, taxaDisplay: "1,45% a.m.*", prazoMax: 60, carencia: 18, creditoMin: 50000, creditoMax: 30000000, desc: "Expansão e modernização da infraestrutura", icone: "rocket", composicaoJuros: "SELIC + 0,35% a.m.", formulaJuros: "Juros = Taxa SELIC + 0,35% ao mês", finalidades: ["Implantação de unidades", "Máquinas e equipamentos", "Veículos", "Modernização", "Expansão"], segmentos: ["Empresas em crescimento", "Indústria", "Comércio atacadista"] }
         ];
 
         let modalidadeAtual = 0;
 
-        // Função para calcular o montante total com juros compostos
         function calcularMontanteTotal(valor, taxa, prazo) {
             return valor * Math.pow(1 + taxa, prazo);
         }
 
-        // Gerar os cards
         function renderCards() {
             const grid = document.getElementById('creditGrid');
-            grid.innerHTML = modalidades.map((m, idx) => {
-                const faixaCredito = formatarFaixaCredito(m.creditoMin, m.creditoMax);
-                return `
+            grid.innerHTML = modalidades.map((m, idx) => `
                 <div class="credit-card">
                     <div class="icon-box"><i data-lucide="${m.icone}"></i></div>
                     <h3>${m.nome}</h3>
                     <p>${m.desc}</p>
                     <div class="tax-rate"><strong>*${m.taxaDisplay}</strong></div>
-                    <div class="credit-info-row">
-                        <span class="credit-info-label">Prazo máximo:</span>
-                        <span class="credit-info-value">${m.prazoMax} meses</span>
-                    </div>
-                    <div class="credit-info-row">
-                        <span class="credit-info-label">Crédito:</span>
-                        <span class="credit-info-value">${faixaCredito}</span>
-                    </div>
+                    <div class="credit-info-row"><span class="credit-info-label">Prazo máximo:</span><span class="credit-info-value">${m.prazoMax} meses</span></div>
+                    <div class="credit-info-row"><span class="credit-info-label">Crédito:</span><span class="credit-info-value">${formatarFaixaCredito(m.creditoMin, m.creditoMax)}</span></div>
                     <div class="card-buttons">
-                        <button class="btn btn-outline btn-sm" onclick="abrirModal(${idx})">
-                            <i data-lucide="info"></i> Saiba Mais
-                        </button>
-                        <button class="btn btn-sm" onclick="simularLinha(${idx})">
-                            <i data-lucide="calculator"></i> Simular Agora
-                        </button>
+                        <button class="btn btn-outline btn-sm" onclick="abrirModal(${idx})"><i data-lucide="info"></i> Saiba Mais</button>
+                        <button class="btn btn-sm" onclick="simularLinha(${idx})"><i data-lucide="calculator"></i> Simular Agora</button>
                     </div>
                 </div>
-            `}).join('');
+            `).join('');
             lucide.createIcons();
         }
 
-        // Abrir modal com informações completas
         function abrirModal(idx) {
             const m = modalidades[idx];
-            const modalDiv = document.getElementById('modal');
-            const modalContent = document.getElementById('modalContent');
-            
-            // Calcular simulações de devolução
             const valorMinSimulado = calcularMontanteTotal(m.creditoMin, m.taxaMensal, m.prazoMax);
             const valorMaxSimulado = calcularMontanteTotal(m.creditoMax, m.taxaMensal, m.prazoMax);
             
-            modalContent.innerHTML = `
+            document.getElementById('modalContent').innerHTML = `
                 <h2>${m.nome}</h2>
-                
                 <div class="modal-section">
                     <h3><i data-lucide="info"></i> Informações Principais</h3>
                     <div class="info-grid">
-                        <div class="info-item">
-                            <span class="label">Crédito Mínimo</span>
-                            <span class="value">${formatarValor(m.creditoMin)}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="label">Crédito Máximo</span>
-                            <span class="value">${formatarValor(m.creditoMax)}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="label">Taxa de Juros</span>
-                            <span class="value"><strong>*${m.taxaDisplay}</strong></span>
-                        </div>
-                        <div class="info-item">
-                            <span class="label">Prazo Máximo</span>
-                            <span class="value">${m.prazoMax} meses</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="label">Carência</span>
-                            <span class="value">${m.carencia} meses</span>
-                        </div>
+                        <div class="info-item"><span class="label">Crédito Mínimo</span><span class="value">${formatarValor(m.creditoMin)}</span></div>
+                        <div class="info-item"><span class="label">Crédito Máximo</span><span class="value">${formatarValor(m.creditoMax)}</span></div>
+                        <div class="info-item"><span class="label">Taxa de Juros</span><span class="value"><strong>*${m.taxaDisplay}</strong></span></div>
+                        <div class="info-item"><span class="label">Prazo Máximo</span><span class="value">${m.prazoMax} meses</span></div>
+                        <div class="info-item"><span class="label">Carência</span><span class="value">${m.carencia} meses</span></div>
                     </div>
-                    <small style="display: block; margin-top: 12px; font-size: 0.7rem; color: var(--text-muted);">
-                        *As taxas de juros podem ser alteradas de acordo com o plano de negócios e a gestão de risco.
-                    </small>
                 </div>
-                
+                <div class="modal-section">
+                    <h3><i data-lucide="percent"></i> Composição dos Juros</h3>
+                    <div class="juros-composicao">
+                        <p style="margin-bottom: 10px;"><strong>Fórmula de cálculo:</strong></p>
+                        <div class="juros-formula">${m.composicaoJuros}</div>
+                        <p style="margin-top: 10px; font-size: 0.85rem;"><strong>Como funciona:</strong> ${m.formulaJuros}</p>
+                        <small style="display: block; margin-top: 10px; font-size: 0.7rem;">*As taxas de juros podem ser alteradas de acordo com o plano de negócios e a gestão de risco.</small>
+                    </div>
+                </div>
                 <div class="modal-section">
                     <h3><i data-lucide="target"></i> Finalidades</h3>
-                    <ul class="finalidades-list">
-                        ${m.finalidades.map(f => `<li><i data-lucide="check-circle-2" style="width: 16px; color: var(--secondary);"></i> ${f}</li>`).join('')}
-                    </ul>
+                    <ul class="finalidades-list">${m.finalidades.map(f => `<li><i data-lucide="check-circle-2" style="width: 16px;"></i> ${f}</li>`).join('')}</ul>
                 </div>
-                
                 <div class="modal-section">
                     <h3><i data-lucide="building"></i> Segmentos Atendidos</h3>
-                    <ul class="finalidades-list">
-                        ${m.segmentos.map(s => `<li><i data-lucide="briefcase" style="width: 16px; color: var(--secondary);"></i> ${s}</li>`).join('')}
-                    </ul>
+                    <ul class="finalidades-list">${m.segmentos.map(s => `<li><i data-lucide="briefcase" style="width: 16px;"></i> ${s}</li>`).join('')}</ul>
                 </div>
-                
                 <div class="modal-section">
                     <h3><i data-lucide="trending-up"></i> Simulação de Devolução</h3>
                     <div class="simulation-box">
-                        <p style="margin-bottom: 10px;">Valor total a devolver no prazo máximo (${m.prazoMax} meses):</p>
+                        <p>Valor total a devolver no prazo máximo (${m.prazoMax} meses):</p>
                         <div class="simulation-values">
-                            <div>
-                                <span class="label">Mínimo</span>
-                                <div class="amount">${formatarValor(valorMinSimulado)}</div>
-                            </div>
-                            <div>
-                                <span class="label">Máximo</span>
-                                <div class="amount">${formatarValor(valorMaxSimulado)}</div>
-                            </div>
+                            <div><span class="label">Mínimo</span><div class="amount">${formatarValor(valorMinSimulado)}</div></div>
+                            <div><span class="label">Máximo</span><div class="amount">${formatarValor(valorMaxSimulado)}</div></div>
                         </div>
                     </div>
                 </div>
-                
                 <div style="display: flex; gap: 12px; margin-top: 20px;">
-                    <button class="btn" style="flex: 1;" onclick="fecharModal(); simularLinha(${idx});">
-                        <i data-lucide="calculator"></i> Simular Agora
-                    </button>
-                    <a href="https://wa.me/5521982619775" class="btn btn-wa" style="flex: 1; text-align: center;">
-                        <i data-lucide="message-circle"></i> Solicitar
-                    </a>
+                    <button class="btn" style="flex: 1;" onclick="fecharModal(); simularLinha(${idx});"><i data-lucide="calculator"></i> Simular Agora</button>
+                    <a href="https://wa.me/5521982619775" class="btn btn-wa" style="flex: 1; text-align: center;"><i data-lucide="message-circle"></i> Solicitar</a>
                 </div>
             `;
             lucide.createIcons();
-            modalDiv.classList.add('active');
+            document.getElementById('modal').classList.add('active');
         }
         
-        function fecharModal() {
-            document.getElementById('modal').classList.remove('active');
-        }
+        function fecharModal() { document.getElementById('modal').classList.remove('active'); }
         
-        // Simular linha específica e rolar para o simulador
         function simularLinha(idx) {
             modalidadeAtual = idx;
             atualizarInfoModalidade();
@@ -717,8 +563,6 @@
             document.getElementById('modalidadeTaxa').innerHTML = `<strong>*${m.taxaDisplay}</strong>`;
             document.getElementById('modalidadeDesc').innerText = m.desc;
             document.getElementById('taxNote').innerHTML = '*As taxas de juros podem ser alteradas de acordo com o plano de negócios e a gestão de risco.';
-            
-            // Atualizar placeholders com limites formatados
             document.getElementById('valorInput').placeholder = `Mín: ${formatarValor(m.creditoMin)} | Máx: ${formatarValor(m.creditoMax)}`;
             document.getElementById('prazoInput').placeholder = `Máximo: ${m.prazoMax} meses`;
         }
@@ -727,41 +571,27 @@
             let valor = parseFloat(document.getElementById('valorInput').value);
             let prazo = parseInt(document.getElementById('prazoInput').value);
             const m = modalidades[modalidadeAtual];
-            
             if (isNaN(valor)) valor = 0;
             if (isNaN(prazo)) prazo = 0;
             
-            // Validações
             if (valor > 0 && prazo > 0 && prazo <= m.prazoMax && valor >= m.creditoMin && valor <= m.creditoMax) {
-                const taxa = m.taxaMensal;
-                const fator = Math.pow(1 + taxa, prazo);
-                const parcela = valor * (taxa * fator) / (fator - 1);
-                document.getElementById('resultadoParcela').innerHTML = parcela.toLocaleString('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL'
-                });
+                const parcela = valor * (m.taxaMensal * Math.pow(1 + m.taxaMensal, prazo)) / (Math.pow(1 + m.taxaMensal, prazo) - 1);
+                document.getElementById('resultadoParcela').innerHTML = parcela.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            } else if (valor < m.creditoMin && valor > 0) {
+                document.getElementById('resultadoParcela').innerHTML = `Mínimo: ${formatarValor(m.creditoMin)}`;
+            } else if (valor > m.creditoMax && valor > 0) {
+                document.getElementById('resultadoParcela').innerHTML = `Máximo: ${formatarValor(m.creditoMax)}`;
+            } else if (prazo > m.prazoMax && prazo > 0) {
+                document.getElementById('resultadoParcela').innerHTML = `Prazo máx: ${m.prazoMax} meses`;
             } else {
-                if (valor < m.creditoMin && valor > 0) {
-                    document.getElementById('resultadoParcela').innerHTML = `Mínimo: ${formatarValor(m.creditoMin)}`;
-                } else if (valor > m.creditoMax && valor > 0) {
-                    document.getElementById('resultadoParcela').innerHTML = `Máximo: ${formatarValor(m.creditoMax)}`;
-                } else if (prazo > m.prazoMax && prazo > 0) {
-                    document.getElementById('resultadoParcela').innerHTML = `Prazo máx: ${m.prazoMax} meses`;
-                } else {
-                    document.getElementById('resultadoParcela').innerHTML = "R$ 0,00";
-                }
+                document.getElementById('resultadoParcela').innerHTML = "R$ 0,00";
             }
         }
         
-        // Fechar modal ao clicar fora
         window.onclick = function(event) {
-            const modal = document.getElementById('modal');
-            if (event.target === modal) {
-                fecharModal();
-            }
+            if (event.target === document.getElementById('modal')) fecharModal();
         }
         
-        // Inicializar
         renderCards();
         atualizarInfoModalidade();
     </script>
