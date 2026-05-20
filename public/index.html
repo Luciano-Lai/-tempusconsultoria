@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEMPUS Consultoria - Crédito Empresarial</title>
+    
+    <meta name="description" content="Consultoria especializada em viabilidade e expansão de negócios através de captação de recursos de alto impacto e gestão estratégica de ativos financeiros e operacionais.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0f3a45;
+            --secondary: #20B2AA;
+            --accent: #1a4d5c;
+            --bg-light: #f8fafb;
+            --white: #ffffff;
+            --text-main: #2d3748;
+            --text-muted: #718096;
+            --success: #25D366;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 30px -15px rgba(0, 0, 0, 0.2);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--white);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(15, 58, 69, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 45px;
+            transition: 0.3s;
+        }
+
+        .logo img:hover {
+            opacity: 0.9;
+        }
+
+        /* Menu de Navegação */
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-menu a:hover {
+            color: var(--secondary);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 100px 0 80px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: var(--white);
+            clip-path: polygon(0 100%, 100% 100%, 100% 0);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            margin-bottom: 20px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 35px;
+            opacity: 0.9;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Botões */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 32px;
+            background: var(--secondary);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            background: #1a8a84;
+            transform: translateY(-3px);
+        }
+
+        .btn-wa {
+            background: var(--success);
+        }
+
+        .btn-wa:hover {
+            background: #1ebd5b;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+        }
+
+        .btn-outline:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Seções */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Seção Sobre - Versão simplificada (sem o quadro verde) */
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-content h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .about-content p {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+
+        .about-features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature i {
+            color: var(--secondary);
+            width: 22px;
+            height: 22px;
+        }
+
+        .feature span {
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        /* Seção de Estatísticas */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            text-align: center;
+            background: var(--bg-light);
+            border-radius: 30px;
+            padding: 50px;
+        }
+
+        .stat-item {
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .stat-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            opacity: 0.8;
+        }
+
+        /* Seção Serviços */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .service-card {
+            background: var(--white);
+            padding: 35px 25px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: 0.3s;
+            border: 1px solid #eef2f6;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(32, 178, 170, 0.1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--secondary);
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Seção Segmentos */
+        .segments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .segment-item {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 500;
+            color: var(--primary);
+            transition: 0.3s;
+            cursor: default;
+        }
+
+        .segment-item:hover {
+            background: var(--secondary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Cards de Crédito */
+        .credit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .credit-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid #eef2f6;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .credit-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .icon-box {
+            width: 55px;
+            height: 55px;
+            background: rgba(32, 178, 170, 0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+
+        .credit-card h3 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .credit-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .credit-info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-top: 1px solid #eef2f6;
+            font-size: 0.9rem;
+        }
+
+        .credit-info-label {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .credit-info-value {
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .tax-rate {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin: 10px 0;
+        }
+
+        .card-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .card-buttons .btn {
+            flex: 1;
+            padding: 10px;
+            font-size: 0.85rem;
+        }
+
+        /* Simulador */
+        .simulator-box {
+            background: var(--bg-light);
+            border-radius: 30px;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        .sim-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .selector-group label,
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .selector-group select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .selector-group select:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+
+        .info-sim {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin-top: 10px;
+        }
+
+        .info-sim p {
+            margin: 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .info-sim strong {
+            color: var(--secondary);
+        }
+
+        .sim-result {
+            background: var(--primary);
+            color: white;
+            padding: 35px;
+            border-radius: 24px;
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .sim-result h4 {
+            opacity: 0.8;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+
+        .sim-result .price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin: 15px 0;
+            display: block;
+            word-break: break-word;
+        }
+
+        .sim-result .detail {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 15px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 24px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: 0.2s;
+        }
+
+        .modal-close:hover {
+            color: var(--primary);
+        }
+
+        .modal h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+        }
+
+        .modal-section {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eef2f6;
+        }
+
+        .modal-section h3 {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .info-item {
+            background: var(--bg-light);
+            padding: 12px;
+            border-radius: 12px;
+        }
+
+        .info-item .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .info-item .value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .simulation-box {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .simulation-values {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .simulation-values div {
+            flex: 1;
+        }
+
+        .simulation-values .amount {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--secondary);
+            word-break: break-word;
+        }
+
+        .finalidades-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .finalidades-list li {
+            padding: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .juros-composicao {
+            background: #eef2fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .juros-formula {
+            font-family: monospace;
+            font-size: 0.9rem;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 50px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            margin-bottom: 20px;
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+
+        .footer-col p {
+            opacity: 0.8;
+            margin: 12px 0;
+            line-height: 1.5;
+        }
+
+        .footer-contact {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .footer-contact:hover {
+            opacity: 0.8;
+            transform: translateX(5px);
+        }
+
+        .footer-contact i {
+            width: 20px;
+            height: 20px;
+            color: var(--secondary);
+        }
+
+        .footer-contact a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .copyright {
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .nav-wrapper {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .nav-menu {
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .nav-buttons {
+                justify-content: center;
+            }
+            
+            .logo img {
+                height: 38px;
+            }
+            
+            .simulator-box {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 25px;
+            }
+
+            .about-features {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .stats-grid {
+                padding: 30px;
+            }
+
+            .services-grid {
+                gap: 20px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+            
+            .footer-contact {
+                justify-content: center;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .simulation-values {
+                flex-direction: column;
+            }
+
+            .card-buttons {
+                flex-direction: column;
+            }
+
+            .sim-result .price {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-wrapper">
+            <a href="#" class="logo">
+                <img src="TEMPUS - Consultoria.png" alt="TEMPUS Consultoria - Soluções Financeiras Inteligentes">
+            </a>
+            <div class="nav-menu">
+                <a href="#sobre">Sobre</a>
+                <a href="#servicos">Linhas de Crédito</a>
+                <a href="#simulador">Simulador</a>
+                <a href="#segmentos">Segmentos</a>
+            </div>
+            <div class="nav-buttons">
+                <a href="https://wa.me/5521982619775" class="btn btn-wa" style="padding: 10px 24px; font-size: 14px;">
+                    <i data-lucide="message-circle"></i> Consultoria Grátis
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Crédito Especializado para Empresas</h1>
+                <p>Consultoria especializada em viabilidade e expansão de negócios através de captação de recursos de alto impacto e gestão estratégica de ativos financeiros e operacionais.</p>
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <a href="#simulador" class="btn">Simular Agora</a>
+                    <a href="https://wa.me/5521982619775" class="btn btn-wa">Falar com Especialista</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Sobre a TEMPUS -->
+        <section class="section container" id="sobre">
+            <div class="about-content">
+                <h3>Sobre a <span style="color: var(--secondary);">TEMPUS</span></h3>
+                <p>Somos uma consultoria especializada em viabilidade e expansão de negócios através de captação de recursos de alto impacto e gestão estratégica de ativos financeiros e operacionais. Com profundo conhecimento do mercado de crédito e linhas de financiamento, conectamos empresas às melhores oportunidades de crédito disponíveis no mercado.</p>
+                <p>Nossa missão é transformar desafios financeiros em oportunidades de crescimento real, oferecendo soluções sob medida para empresas de todos os portes e segmentos no Estado do Rio de Janeiro e em todo território nacional.</p>
+                <div class="about-features">
+                    <div class="feature">
+                        <i data-lucide="check-circle"></i>
+                        <span>Análise personalizada</span>
+                    </div>
+                    <div class="feature">
+                        <i data-lucide="check-circle"></i>
+                        <span>Melhores taxas do mercado</span>
+                    </div>
+                    <div class="feature">
+                        <i data-lucide="check-circle"></i>
+                        <span>Acompanhamento completo</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Estatísticas -->
+        <section class="section container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">20+</div>
+                    <div class="stat-label">Anos de Experiência</div>
+                    <div class="stat-desc">Atuação consolidada em todo o Brasil, transformando empresas e gerando resultados reais</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">R$ 300+</div>
+                    <div class="stat-label">Milhões em Negócios</div>
+                    <div class="stat-desc">Em negócios estruturados e viabilizados com sucesso</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Empresas Atendidas</div>
+                    <div class="stat-desc">Clientes satisfeitos em diversos segmentos da economia</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Nossos Serviços -->
+        <section class="section container">
+            <div class="section-header">
+                <h2>Nossos Serviços</h2>
+                <p>Soluções completas para impulsionar o seu negócio</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i data-lucide="file-text"></i></div>
+                    <h3>Planos de Negócios</h3>
+                    <p>Estruturação de planos estratégicos para captação de recursos e crescimento sustentável</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i data-lucide="users"></i></div>
+                    <h3>Mentoria Empresarial</h3>
+                    <p>Acompanhamento personalizado para gestão financeira e tomada de decisões estratégicas</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i data-lucide="bar-chart-3"></i></div>
+                    <h3>Análise Estratégica</h3>
+                    <p>Diagnóstico completo da saúde financeira e oportunidades de melhoria</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i data-lucide="settings"></i></div>
+                    <h3>Implementação de Processos</h3>
+                    <p>Otimização de fluxos operacionais e implementação de boas práticas de gestão</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Segmentos Diversos -->
+        <section class="section container" id="segmentos">
+            <div class="section-header">
+                <h2>Segmentos que Atendemos</h2>
+                <p>Presentes nos mais diversos setores da economia</p>
+            </div>
+            <div class="segments-grid">
+                <div class="segment-item">Varejo</div>
+                <div class="segment-item">Supermercados</div>
+                <div class="segment-item">Construtoras</div>
+                <div class="segment-item">Serviços</div>
+                <div class="segment-item">Alimentação</div>
+                <div class="segment-item">Saúde</div>
+                <div class="segment-item">Pet</div>
+                <div class="segment-item">Indústria</div>
+                <div class="segment-item">Tecnologia</div>
+                <div class="segment-item">Agronegócio</div>
+                <div class="segment-item">Educação</div>
+                <div class="segment-item">Transporte</div>
+            </div>
+            <div style="text-align: center; margin-top: 30px;">
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Entre muitos outros segmentos</p>
+            </div>
+        </section>
+
+        <section class="section container" id="servicos">
+            <div class="section-header">
+                <h2>Linhas de Crédito Disponíveis</h2>
+                <p>Conheça nossas soluções financeiras e escolha a ideal para o seu negócio</p>
+            </div>
+            
+            <div class="credit-grid" id="creditGrid"></div>
+        </section>
+
+        <section class="section container" id="simulador">
+            <div class="section-header">
+                <h2>Simulador Financeiro</h2>
+                <p>Escolha a linha de crédito e veja o valor total a ser devolvido no prazo máximo</p>
+            </div>
+
+            <div class="simulator-box">
+                <div class="sim-inputs">
+                    <div class="selector-group">
+                        <label><i data-lucide="credit-card" style="width: 18px; vertical-align: middle;"></i> Selecione a Linha de Crédito</label>
+                        <select id="selectModalidade" onchange="trocarModalidade()">
+                            <!-- Opções serão preenchidas via JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div class="info-sim" id="infoSimulador">
+                        <p><strong>Taxa de juros:</strong> <span id="simTaxa">--</span></p>
+                        <p><strong>Prazo máximo:</strong> <span id="simPrazoMax">--</span> meses</p>
+                        <p><strong>Crédito disponível:</strong> <span id="simCredito">--</span></p>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i data-lucide="dollar-sign" style="width: 18px; vertical-align: middle;"></i> Valor do Financiamento (R$)</label>
+                        <input type="number" id="valorInput" placeholder="Ex: 50.000" oninput="calcularSimulacao()">
+                    </div>
+                </div>
+
+                <div class="sim-result">
+                    <h4>Valor Total a Devolver</h4>
+                    <span class="price" id="resultadoTotal">R$ 0,00</span>
+                    <div class="detail">
+                        <small>Considerando o prazo máximo de <span id="prazoUsado">--</span> meses</small>
+                    </div>
+                    <a href="https://wa.me/5521982619775" class="btn btn-wa" style="width: 100%; margin-top: 20px;">
+                        Solicitar Análise de Crédito
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="logo" style="margin-bottom: 15px; display: inline-block;">
+                        <img src="TEMPUS - Consultoria.png" alt="TEMPUS Consultoria" style="height: 45px;">
+                    </a>
+                    <p>Somos uma consultoria especializada em viabilidade e expansão de negócios através de captação de recursos de alto impacto e gestão estratégica de ativos financeiros e operacionais. Conectamos empresas às melhores oportunidades de crédito disponíveis no mercado.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Contato</h4>
+                    <div class="footer-contact" onclick="window.location.href='https://wa.me/5521982619775'">
+                        <i data-lucide="phone"></i>
+                        <span>(21) 98261-9775</span>
+                    </div>
+                    <div class="footer-contact" onclick="window.location.href='mailto:tempusinteligencia@gmail.com'">
+                        <i data-lucide="mail"></i>
+                        <span>tempusinteligencia@gmail.com</span>
+                    </div>
+                    <div class="footer-contact">
+                        <i data-lucide="map-pin"></i>
+                        <span>Rio de Janeiro - RJ</span>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2026 TEMPUS Consultoria Financeira. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="fecharModal()">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Inicializar ícones
+        lucide.createIcons();
+
+        // Função para formatar valores resumidos
+        function formatarValorResumido(valor) {
+            if (valor >= 1000000) {
+                const emMilhoes = valor / 1000000;
+                if (Math.abs(emMilhoes - Math.round(emMilhoes)) < 0.01) {
+                    return `R$ ${Math.round(emMilhoes)} milhões`;
+                }
+                return `R$ ${emMilhoes.toFixed(1).replace('.', ',')} milhões`;
+            } else if (valor >= 1000) {
+                return `R$ ${Math.round(valor / 1000)} mil`;
+            }
+            return `R$ ${valor.toLocaleString('pt-BR')}`;
+        }
+
+        function formatarValorExato(valor) {
+            return valor.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        function formatarFaixaCredito(min, max) {
+            return `${formatarValorResumido(min)} a ${formatarValorResumido(max)}`;
+        }
+
+        const modalidades = [
+            { id: 0, nome: "BNDES PME", taxaMensal: 0.0135, taxaDisplay: "1,35% a.m.*", prazoMax: 60, carencia: 12, creditoMin: 15000, creditoMax: 15000000, desc: "Capital de giro e investimento fixo para Micro, Pequenas e Médias Empresas", icone: "building-2", composicaoJuros: "Indexador (TFB ou LCD) + 1,35% a.a. + 2,19% a.a.*", formulaJuros: "Custo efetivo = Indexador + spread anual", finalidades: ["Manutenção de estoques", "Folha de pagamento", "Compra de matérias-primas", "Despesas operacionais", "Máquinas e equipamentos", "Obras civis e instalações"], segmentos: ["Indústria", "Comércio", "Serviços", "Agronegócio"] },
+            { id: 1, nome: "Turismo", taxaMensal: 0.0067, taxaDisplay: "0,67% a.m.*", prazoMax: 72, carencia: 12, creditoMin: 21000, creditoMax: 15000000, desc: "Crédito para infraestrutura turística e capital de giro", icone: "umbrella", composicaoJuros: "INPC + 5% a.a.", formulaJuros: "Juros = INPC (inflação) + 5% ao ano", finalidades: ["Compra de máquinas e equipamentos", "Obras civis e reforma", "Ampliação e modernização", "Capital de giro e fixo"], segmentos: ["Hotéis", "Pousadas", "Restaurantes", "Agências de turismo", "Parques temáticos"] },
+            { id: 2, nome: "Empresas Nascentes", taxaMensal: 0.0113, taxaDisplay: "1,13% a.m.*", prazoMax: 60, carencia: 18, creditoMin: 500000, creditoMax: 5000000, desc: "Empresas com menos de 24 meses de faturamento", icone: "sprout", composicaoJuros: "SELIC + 4,25% a.a.", formulaJuros: "Juros = Taxa SELIC + 4,25% ao ano", finalidades: ["Desenvolvimento de novo produto/serviço", "Abertura de unidade", "Obra civil e instalações", "Aquisição de software", "Compra de máquinas", "Contratação de pessoal"], segmentos: ["Startups", "Empresas inovadoras", "Tecnologia", "Indústria 4.0"] },
+            { id: 3, nome: "Microcrédito MPE", taxaMensal: 0.0025, taxaDisplay: "0,25% a.m.*", prazoMax: 36, carencia: 6, creditoMin: 5000, creditoMax: 21000, desc: "Exclusivo para Micro e Pequenas Empresas", icone: "coins", composicaoJuros: "Taxa fixa de 0,25% a.m.", formulaJuros: "Juros simples de 0,25% ao mês sobre o saldo devedor", finalidades: ["Capital de Giro", "Insumos", "Estoques", "Mercadorias"], segmentos: ["MEI", "Microempresa", "Empresa de Pequeno Porte"] },
+            { id: 4, nome: "Crédito Simplificado", taxaMensal: 0.0168, taxaDisplay: "1,68% a.m.*", prazoMax: 36, carencia: 6, creditoMin: 21000, creditoMax: 150000, desc: "Crédito rápido para Micro e Pequenas Empresas", icone: "zap", composicaoJuros: "SELIC + 0,6% a.m.", formulaJuros: "Juros = Taxa SELIC + 0,6% ao mês", finalidades: ["Reforço de capital de giro", "Pagamento de fornecedores", "Materiais e insumos", "Mercadorias"], segmentos: ["Comércio varejista", "Pequenos prestadores de serviço", "Indústria de pequeno porte"] },
+            { id: 5, nome: "Giro Médias/Grandes", taxaMensal: 0.0136, taxaDisplay: "1,36% a.m.*", prazoMax: 60, carencia: 12, creditoMin: 50000, creditoMax: 3000000, desc: "Empresas com faturamento superior a R$ 4,8 milhões", icone: "trending-up", composicaoJuros: "SELIC + 0,25% a.m.", formulaJuros: "Juros = Taxa SELIC + 0,25% ao mês", finalidades: ["Capital de Giro", "Mercadorias", "Insumos", "Expansão operacional"], segmentos: ["Médias empresas", "Grandes empresas", "Indústria de médio porte"] },
+            { id: 6, nome: "Sustentabilidade", taxaMensal: 0.0145, taxaDisplay: "1,45% a.m.*", prazoMax: 120, carencia: 36, creditoMin: 50000, creditoMax: 30000000, desc: "Projetos sustentáveis e energia renovável", icone: "leaf", composicaoJuros: "SELIC + 0,35% a.m.", formulaJuros: "Juros = Taxa SELIC + 0,35% ao mês", finalidades: ["Energia Fotovoltaica", "Eólica", "Eficiência energética", "Reutilização de recursos", "Projetos sustentáveis"], segmentos: ["Energia renovável", "Meio ambiente", "Construção sustentável"] },
+            { id: 7, nome: "Inovação (FINEP)", taxaMensal: 0.0063, taxaDisplay: "0,63% a.m.*", prazoMax: 96, carencia: 24, creditoMin: 100000, creditoMax: 15000000, desc: "P&D, novos produtos e processos inovadores", icone: "microscope", composicaoJuros: "TR + 6,068% a.a.", formulaJuros: "Juros = Taxa Referencial (TR) + 6,068% ao ano", finalidades: ["Desenvolvimento de novos produtos", "Aprimoramento de processos", "Tecnologias habilitadoras", "IoT e Indústria 4.0", "Pesquisa e desenvolvimento"], segmentos: ["Tecnologia", "Indústria 4.0", "Startups inovadoras", "Biotech"] },
+            { id: 8, nome: "Crescimento/Expansão", taxaMensal: 0.0145, taxaDisplay: "1,45% a.m.*", prazoMax: 60, carencia: 18, creditoMin: 50000, creditoMax: 30000000, desc: "Expansão e modernização da infraestrutura", icone: "rocket", composicaoJuros: "SELIC + 0,35% a.m.", formulaJuros: "Juros = Taxa SELIC + 0,35% ao mês", finalidades: ["Implantação de unidades", "Máquinas e equipamentos", "Veículos", "Modernização", "Expansão"], segmentos: ["Empresas em crescimento", "Indústria", "Comércio atacadista"] }
+        ];
+
+        let modalidadeAtual = 0;
+
+        function calcularMontanteTotal(valor, taxa, prazo) {
+            return valor * Math.pow(1 + taxa, prazo);
+        }
+
+        function preencherSelect() {
+            const select = document.getElementById('selectModalidade');
+            select.innerHTML = modalidades.map((m, idx) => 
+                `<option value="${idx}" ${idx === modalidadeAtual ? 'selected' : ''}>${m.nome}</option>`
+            ).join('');
+        }
+
+        function trocarModalidade() {
+            const select = document.getElementById('selectModalidade');
+            modalidadeAtual = parseInt(select.value);
+            atualizarInfoSimulador();
+            calcularSimulacao();
+            renderCards();
+        }
+
+        function atualizarInfoSimulador() {
+            const m = modalidades[modalidadeAtual];
+            document.getElementById('simTaxa').innerHTML = `<strong>${m.taxaDisplay}</strong>`;
+            document.getElementById('simPrazoMax').innerHTML = m.prazoMax;
+            document.getElementById('simCredito').innerHTML = formatarFaixaCredito(m.creditoMin, m.creditoMax);
+            document.getElementById('valorInput').placeholder = `Mín: ${formatarValorResumido(m.creditoMin)} | Máx: ${formatarValorResumido(m.creditoMax)}`;
+            document.getElementById('prazoUsado').innerHTML = m.prazoMax;
+        }
+
+        function calcularSimulacao() {
+            let valor = parseFloat(document.getElementById('valorInput').value);
+            const m = modalidades[modalidadeAtual];
+            if (isNaN(valor)) valor = 0;
+            
+            if (valor > 0 && valor >= m.creditoMin && valor <= m.creditoMax) {
+                const montanteTotal = calcularMontanteTotal(valor, m.taxaMensal, m.prazoMax);
+                document.getElementById('resultadoTotal').innerHTML = formatarValorExato(montanteTotal);
+            } else if (valor < m.creditoMin && valor > 0) {
+                document.getElementById('resultadoTotal').innerHTML = `Mínimo: ${formatarValorResumido(m.creditoMin)}`;
+            } else if (valor > m.creditoMax && valor > 0) {
+                document.getElementById('resultadoTotal').innerHTML = `Máximo: ${formatarValorResumido(m.creditoMax)}`;
+            } else {
+                document.getElementById('resultadoTotal').innerHTML = "R$ 0,00";
+            }
+        }
+
+        function renderCards() {
+            const grid = document.getElementById('creditGrid');
+            grid.innerHTML = modalidades.map((m, idx) => `
+                <div class="credit-card" style="${idx === modalidadeAtual ? 'border: 2px solid var(--secondary);' : ''}">
+                    <div class="icon-box"><i data-lucide="${m.icone}"></i></div>
+                    <h3>${m.nome}</h3>
+                    <p>${m.desc}</p>
+                    <div class="tax-rate"><strong>*${m.taxaDisplay}</strong></div>
+                    <div class="credit-info-row"><span class="credit-info-label">Prazo máximo:</span><span class="credit-info-value">${m.prazoMax} meses</span></div>
+                    <div class="credit-info-row"><span class="credit-info-label">Crédito:</span><span class="credit-info-value">${formatarFaixaCredito(m.creditoMin, m.creditoMax)}</span></div>
+                    <div class="card-buttons">
+                        <button class="btn btn-outline btn-sm" onclick="abrirModal(${idx})"><i data-lucide="info"></i> Saiba Mais</button>
+                        <button class="btn btn-sm" onclick="simularLinhaCard(${idx})"><i data-lucide="calculator"></i> Simular Agora</button>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function simularLinhaCard(idx) {
+            modalidadeAtual = idx;
+            document.getElementById('selectModalidade').value = idx;
+            atualizarInfoSimulador();
+            calcularSimulacao();
+            renderCards();
+            document.getElementById('simulador').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function abrirModal(idx) {
+            const m = modalidades[idx];
+            const valorMinSimulado = calcularMontanteTotal(m.creditoMin, m.taxaMensal, m.prazoMax);
+            const valorMaxSimulado = calcularMontanteTotal(m.creditoMax, m.taxaMensal, m.prazoMax);
+            
+            document.getElementById('modalContent').innerHTML = `
+                <h2>${m.nome}</h2>
+                <div class="modal-section">
+                    <h3><i data-lucide="info"></i> Informações Principais</h3>
+                    <div class="info-grid">
+                        <div class="info-item"><span class="label">Crédito Mínimo</span><span class="value">${formatarValorResumido(m.creditoMin)}</span></div>
+                        <div class="info-item"><span class="label">Crédito Máximo</span><span class="value">${formatarValorResumido(m.creditoMax)}</span></div>
+                        <div class="info-item"><span class="label">Taxa de Juros</span><span class="value"><strong>*${m.taxaDisplay}</strong></span></div>
+                        <div class="info-item"><span class="label">Prazo Máximo</span><span class="value">${m.prazoMax} meses</span></div>
+                        <div class="info-item"><span class="label">Carência</span><span class="value">${m.carencia} meses</span></div>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h3><i data-lucide="percent"></i> Composição dos Juros</h3>
+                    <div class="juros-composicao">
+                        <p style="margin-bottom: 10px;"><strong>Fórmula de cálculo:</strong></p>
+                        <div class="juros-formula">${m.composicaoJuros}</div>
+                        <p style="margin-top: 10px; font-size: 0.85rem;"><strong>Como funciona:</strong> ${m.formulaJuros}</p>
+                        <small style="display: block; margin-top: 10px; font-size: 0.7rem;">*As taxas de juros podem ser alteradas de acordo com o plano de negócios e a gestão de risco.</small>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h3><i data-lucide="target"></i> Finalidades</h3>
+                    <ul class="finalidades-list">${m.finalidades.map(f => `<li><i data-lucide="check-circle-2" style="width: 16px;"></i> ${f}</li>`).join('')}</ul>
+                </div>
+                <div class="modal-section">
+                    <h3><i data-lucide="building"></i> Segmentos Atendidos</h3>
+                    <ul class="finalidades-list">${m.segmentos.map(s => `<li><i data-lucide="briefcase" style="width: 16px;"></i> ${s}</li>`).join('')}</ul>
+                </div>
+                <div class="modal-section">
+                    <h3><i data-lucide="trending-up"></i> Simulação de Devolução</h3>
+                    <div class="simulation-box">
+                        <p>Valor total a devolver no prazo máximo (${m.prazoMax} meses):</p>
+                        <div class="simulation-values">
+                            <div><span class="label">Mínimo</span><div class="amount">${formatarValorExato(valorMinSimulado)}</div></div>
+                            <div><span class="label">Máximo</span><div class="amount">${formatarValorExato(valorMaxSimulado)}</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 12px; margin-top: 20px;">
+                    <button class="btn" style="flex: 1;" onclick="fecharModal(); simularLinhaCard(${idx});"><i data-lucide="calculator"></i> Simular Agora</button>
+                    <a href="https://wa.me/5521982619775" class="btn btn-wa" style="flex: 1; text-align: center;"><i data-lucide="message-circle"></i> Solicitar</a>
+                </div>
+            `;
+            lucide.createIcons();
+            document.getElementById('modal').classList.add('active');
+        }
+        
+        function fecharModal() { document.getElementById('modal').classList.remove('active'); }
+        
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('modal')) fecharModal();
+        }
+        
+        // Inicialização
+        preencherSelect();
+        atualizarInfoSimulador();
+        renderCards();
+    </script>
+</body>
+</html>
